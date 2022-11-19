@@ -46,6 +46,23 @@ def item_get(id: int):
         'get_image_url': '/item/image',
         'get_audio_url': '/item/audio'
     }
+    
+@app.get('/items')
+def items_get():
+    ses = SessionLocal()
+    item = ses.query(Item).all()
+    res = []
+    for i in item:
+        res.append({
+            'id': i.id,
+            'latitude': i.latitude,
+            'longitude': i.longitude
+        })
+    return {
+        'status': 'ok',
+        'items': res
+    }
+        
 
 @app.get('/item/image')
 def item_image_get(id: int):
